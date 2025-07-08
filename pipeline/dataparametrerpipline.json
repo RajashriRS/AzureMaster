@@ -1,0 +1,45 @@
+{
+	"name": "dataparametrerpipline",
+	"properties": {
+		"activities": [
+			{
+				"name": "dataflowparameter",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "dataflow3",
+						"type": "DataFlowReference",
+						"parameters": {
+							"name": {
+								"value": "'@{pipeline().parameters.nameofemp}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"parameters": {
+			"nameofemp": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-07-08T10:03:34Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

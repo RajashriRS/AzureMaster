@@ -1,0 +1,59 @@
+{
+	"name": "dataflow3",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "surrogatedataset",
+						"type": "DatasetReference"
+					},
+					"name": "employeedatanew"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "outputdataset2",
+						"type": "DatasetReference"
+					},
+					"name": "paraoutput",
+					"rejectedDataLinkedService": {
+						"referenceName": "linkrdservice_storagerajashri",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "filter2"
+				}
+			],
+			"scriptLines": [
+				"parameters{",
+				"     name as string",
+				"}",
+				"source(output(",
+				"          name as string,",
+				"          country as string,",
+				"          depart as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> employeedatanew",
+				"employeedatanew filter(name==$name) ~> filter2",
+				"filter2 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Rajashri as string,",
+				"          Sabale as string",
+				"     ),",
+				"     partitionFileNames:['paraoutputfile'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> paraoutput"
+			]
+		}
+	}
+}

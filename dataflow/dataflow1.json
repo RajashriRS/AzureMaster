@@ -1,0 +1,60 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText1",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "outputdataset2",
+						"type": "DatasetReference"
+					},
+					"name": "output2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "unpivot1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          PO as string,",
+				"          Vender as string,",
+				"          Apple as string,",
+				"          Mango as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 unpivot(output(",
+				"          fruits as string,",
+				"          Amount as string",
+				"     ),",
+				"     ungroupBy(PO,",
+				"          Vender),",
+				"     lateral: true,",
+				"     ignoreNullPivots: false) ~> unpivot1",
+				"unpivot1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Rajashri as string,",
+				"          Sabale as string",
+				"     ),",
+				"     partitionFileNames:['unpivoted.csv'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> output2"
+			]
+		}
+	}
+}

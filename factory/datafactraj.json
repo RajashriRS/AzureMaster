@@ -1,0 +1,9 @@
+{
+	"name": "datafactraj",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "848e2e4e-23b4-46fc-b809-f1aae0bc91eb",
+		"tenantId": "08e9acf7-40b7-4e1a-a103-f13dc6f356aa"
+	}
+}
